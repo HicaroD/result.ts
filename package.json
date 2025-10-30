@@ -1,5 +1,5 @@
 {
-  "name": "result.ts",
+  "name": "@hicarod0/result.ts",
   "version": "1.0.0",
   "description": "A TypeScript Take on Rust’s Result<T, E>",
   "scripts": {

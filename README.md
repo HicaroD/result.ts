@@ -6,22 +6,22 @@ A TypeScript Take on Rust’s Result<T, E>.
 
 ```bash
 # Using npm
-npm install results
+npm install @hicarod0/result.ts
 
 # Using yarn
-yarn add results
+yarn add @hicarod0/result.ts
 
 # Using pnpm
-pnpm add results
+pnpm add @hicarod0/result.ts
 
 # Using bun
-bun add results
+bun add @hicarod0/result.ts
 ```
 
 ## Quick Start
 
 ```typescript
-import { ok, err, Result } from 'results';
+import { ok, err, Result } from '@hicarod0/result.ts';
 
 // Create successful results
 const success = ok(42);
