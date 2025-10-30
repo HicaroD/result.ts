@@ -107,6 +107,19 @@ export abstract class Result<T, E> {
   }
 
   /**
+   * Pattern match on the result, providing handlers for both Ok and Err cases.
+   *
+   * @param handlers - An object with Ok and Err handler functions.
+   * @returns The result of calling either the Ok or Err handler.
+   */
+  switch<U>(handlers: { Ok: (value: T) => U; Err: (error: E) => U }): U {
+    if (this.isOk()) {
+      return handlers.Ok(this.value);
+    }
+    return handlers.Err(this.error);
+  }
+
+  /**
    * Internal getter for value. Only accessible after type guard.
    */
   abstract get value(): T;
