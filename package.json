@@ -13,7 +13,7 @@
     "typescript": "^5.9.3"
   },
   "keywords": [],
-  "author": "",
+  "author": "Hícaro Dânrlley <hdanrlley1@gmail.com>",
   "packageManager": "pnpm@10.12.4",
   "license": "MIT"
 }
