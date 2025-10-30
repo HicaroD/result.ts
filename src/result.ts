@@ -133,7 +133,7 @@ export abstract class Result<T, E> {
 /**
  * Represents a successful result containing a value.
  */
-export class Ok<T, E = never> extends Result<T, E> {
+export class Ok<T, E> extends Result<T, E> {
   readonly #value: T;
 
   constructor(value: T) {
@@ -182,7 +182,7 @@ export class Err<T, E> extends Result<T, E> {
  * Helper function to create an Ok result.
  * When assigned to a Result<T, E> type, the error type E is automatically inferred.
  */
-export function ok<T, E = never>(value: T): Result<T, E> {
+export function ok<T, E>(value: T): Result<T, E> {
   return new Ok(value);
 }
 

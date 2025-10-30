@@ -18,7 +18,8 @@ describe("Result", () => {
     });
 
     test("mapErr does nothing", () => {
-      const result = ok(5).mapErr((e: string) => e.toUpperCase());
+      const okResult: Result<number, string> = ok(5);
+      const result = okResult.mapErr((e) => e.toUpperCase());
       expect(result.isOk()).toBe(true);
       expect(result.unwrap()).toBe(5);
     });
@@ -184,6 +185,38 @@ describe("Result", () => {
         Err: (_e) => 2,
       });
       expect(value).toBe(43);
+    });
+
+    test("type narrows correctly after isOk", () => {
+      const result: Result<number, string> = ok(42);
+
+      if (result.isOk()) {
+        // TypeScript knows result is Ok<number, string>
+        const value = result.value; // No type error
+        expect(value).toBe(42);
+      }
+
+      let hitsErrorBlock = false;
+      if (result.isErr()) {
+        hitsErrorBlock = true;
+      }
+      expect(hitsErrorBlock).toBeFalsy();
+    });
+
+    test("type narrows correctly after isErr", () => {
+      const result: Result<number, string> = err("error");
+
+      let hitsValueBlock = false;
+      if (result.isOk()) {
+        hitsValueBlock = true;
+      }
+      expect(hitsValueBlock).toBeFalsy();
+
+      if (result.isErr()) {
+        // TypeScript knows result is Err<number, string>
+        const error = result.error; // No type error
+        expect(error).toBe("error");
+      }
     });
   });
 });
