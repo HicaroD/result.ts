@@ -9,6 +9,9 @@
     "LICENSE",
     "README.md"
   ],
+  "repository": {
+    "url": "https://github.com/HicaroD/result.ts"
+  },
   "scripts": {
     "test": "jest",
     "types:check": "tsc --noEmit"
