@@ -1,7 +1,7 @@
 {
   "name": "result.ts",
   "version": "1.0.0",
-  "description": "",
+  "description": "A TypeScript Take on Rust’s Result<T, E>",
   "scripts": {
     "test": "jest",
     "types:check": "tsc --noEmit"
