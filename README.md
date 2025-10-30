@@ -21,7 +21,7 @@ bun add @hicarod0/result.ts
 ## Quick Start
 
 ```typescript
-import { ok, err, Result } from '@hicarod0/result.ts';
+import { ok, err, Result } from "@hicarod0/result.ts";
 
 // Create successful results
 const success = ok(42);
@@ -46,11 +46,11 @@ if (failure.isErr()) {
 ```typescript
 const result = ok(100);
 
-result.isOk();  // true
+result.isOk(); // true
 result.isErr(); // false
 
 const error = err("failed");
-error.isOk();  // false
+error.isOk(); // false
 error.isErr(); // true
 ```
 
@@ -59,13 +59,13 @@ error.isErr(); // true
 ```typescript
 // map: Transform the success value
 ok(5)
-  .map(x => x * 2)
-  .map(x => x + 1)
+  .map((x) => x * 2)
+  .map((x) => x + 1)
   .unwrap(); // 11
 
 // mapErr: Transform the error value
 err("not found")
-  .mapErr(e => `Error: ${e}`)
+  .mapErr((e) => `Error: ${e}`)
   .err(); // "Error: not found"
 ```
 
@@ -79,10 +79,10 @@ function divide(a: number, b: number): Result<number, string> {
 }
 
 ok(10)
-  .andThen(x => divide(x, 2))  // Ok(5)
-  .andThen(x => divide(x, 0))  // Err("division by zero")
-  .map(x => x * 10)            // Skipped (already Err)
-  .unwrapOr(0);                // 0 (fallback value)
+  .andThen((x) => divide(x, 2)) // Ok(5)
+  .andThen((x) => divide(x, 0)) // Err("division by zero")
+  .map((x) => x * 10) // Skipped (already Err)
+  .unwrapOr(0); // 0 (fallback value)
 ```
 
 ### Pattern Matching
@@ -92,7 +92,7 @@ const result = ok(42);
 
 const message = result.switch({
   Ok: (value) => `Success: ${value}`,
-  Err: (error) => `Failed: ${error}`
+  Err: (error) => `Failed: ${error}`,
 });
 
 console.log(message); // "Success: 42"
@@ -103,10 +103,10 @@ console.log(message); // "Success: 42"
 ```typescript
 const result = ok(42);
 
-result.unwrap();      // 42 (throws if Err)
-result.ok();          // 42 (returns undefined if Err)
-result.unwrapOr(0);   // 42 (returns default if Err)
-result.err();         // undefined (returns error if Err)
+result.unwrap(); // 42 (throws if Err)
+result.ok(); // 42 (returns undefined if Err)
+result.unwrapOr(0); // 42 (returns default if Err)
+result.err(); // undefined (returns error if Err)
 ```
 
 ## Real-World Examples
@@ -125,11 +125,11 @@ interface User {
 async function fetchUser(userId: number): Promise<Result<User, string>> {
   try {
     const response = await fetch(`https://api.example.com/users/${userId}`);
-    
+
     if (!response.ok) {
       return err(`HTTP ${response.status}: ${response.statusText}`);
     }
-    
+
     const user = await response.json();
     return ok(user);
   } catch (error) {
@@ -142,7 +142,7 @@ const userResult = await fetchUser(123);
 
 userResult.switch({
   Ok: (user) => console.log(`Welcome, ${user.name}!`),
-  Err: (error) => console.error(`Failed to load user: ${error}`)
+  Err: (error) => console.error(`Failed to load user: ${error}`),
 });
 ```
 
@@ -169,10 +169,10 @@ function validateAge(age: number): Result<number, string> {
 function validateUser(input: UserInput): Result<UserInput, string> {
   const emailResult = validateEmail(input.email);
   if (emailResult.isErr()) return err(emailResult.error);
-  
+
   const ageResult = validateAge(input.age);
   if (ageResult.isErr()) return err(ageResult.error);
-  
+
   return ok(input);
 }
 
@@ -200,11 +200,11 @@ interface Product {
 async function findProduct(id: string): Promise<Result<Product, string>> {
   try {
     const product = await db.products.findUnique({ where: { id } });
-    
+
     if (!product) {
       return err(`Product ${id} not found`);
     }
-    
+
     return ok(product);
   } catch (error) {
     return err(`Database error: ${error}`);
@@ -212,20 +212,20 @@ async function findProduct(id: string): Promise<Result<Product, string>> {
 }
 
 async function updateProductPrice(
-  id: string, 
-  newPrice: number
+  id: string,
+  newPrice: number,
 ): Promise<Result<Product, string>> {
   if (newPrice < 0) {
     return err("Price cannot be negative");
   }
-  
+
   const productResult = await findProduct(id);
-  
+
   return productResult.andThen(async (product) => {
     try {
       const updated = await db.products.update({
         where: { id },
-        data: { price: newPrice }
+        data: { price: newPrice },
       });
       return ok(updated);
     } catch (error) {
@@ -239,7 +239,7 @@ const result = await updateProductPrice("prod-123", 99.99);
 
 const message = result.switch({
   Ok: (product) => `Updated ${product.name} to $${product.price}`,
-  Err: (error) => `Update failed: ${error}`
+  Err: (error) => `Update failed: ${error}`,
 });
 ```
 
@@ -257,23 +257,23 @@ interface Config {
 function parseConfig(raw: string): Result<Config, string> {
   try {
     const parsed = JSON.parse(raw);
-    
-    if (!parsed.apiUrl || typeof parsed.apiUrl !== 'string') {
+
+    if (!parsed.apiUrl || typeof parsed.apiUrl !== "string") {
       return err("Missing or invalid apiUrl");
     }
-    
-    if (typeof parsed.timeout !== 'number' || parsed.timeout <= 0) {
+
+    if (typeof parsed.timeout !== "number" || parsed.timeout <= 0) {
       return err("Invalid timeout value");
     }
-    
-    if (typeof parsed.retries !== 'number' || parsed.retries < 0) {
+
+    if (typeof parsed.retries !== "number" || parsed.retries < 0) {
       return err("Invalid retries value");
     }
-    
+
     return ok({
       apiUrl: parsed.apiUrl,
       timeout: parsed.timeout,
-      retries: parsed.retries
+      retries: parsed.retries,
     });
   } catch (error) {
     return err(`JSON parse error: ${error}`);
@@ -281,11 +281,11 @@ function parseConfig(raw: string): Result<Config, string> {
 }
 
 // Usage with fallback
-const configData = fs.readFileSync('config.json', 'utf-8');
+const configData = fs.readFileSync("config.json", "utf-8");
 const config = parseConfig(configData).unwrapOr({
-  apiUrl: 'https://api.example.com',
+  apiUrl: "https://api.example.com",
   timeout: 5000,
-  retries: 3
+  retries: 3,
 });
 ```
 
@@ -296,7 +296,7 @@ Handle file I/O gracefully.
 ```typescript
 function readFile(path: string): Result<string, string> {
   try {
-    const content = fs.readFileSync(path, 'utf-8');
+    const content = fs.readFileSync(path, "utf-8");
     return ok(content);
   } catch (error) {
     return err(`Failed to read ${path}: ${error}`);
@@ -305,7 +305,7 @@ function readFile(path: string): Result<string, string> {
 
 function writeFile(path: string, content: string): Result<void, string> {
   try {
-    fs.writeFileSync(path, content, 'utf-8');
+    fs.writeFileSync(path, content, "utf-8");
     return ok(undefined);
   } catch (error) {
     return err(`Failed to write ${path}: ${error}`);
@@ -313,9 +313,9 @@ function writeFile(path: string, content: string): Result<void, string> {
 }
 
 // Chain file operations
-const result = readFile('input.txt')
-  .map(content => content.toUpperCase())
-  .andThen(content => writeFile('output.txt', content));
+const result = readFile("input.txt")
+  .map((content) => content.toUpperCase())
+  .andThen((content) => writeFile("output.txt", content));
 
 if (result.isErr()) {
   console.error("File operation failed:", result.error);
@@ -329,25 +329,25 @@ Convert and validate user input safely.
 ```typescript
 function parsePositiveInt(input: string): Result<number, string> {
   const num = parseInt(input, 10);
-  
+
   if (isNaN(num)) {
     return err(`"${input}" is not a valid number`);
   }
-  
+
   if (num <= 0) {
     return err("Number must be positive");
   }
-  
+
   return ok(num);
 }
 
 // Usage
 const inputs = ["42", "-5", "abc", "100"];
 
-inputs.forEach(input => {
+inputs.forEach((input) => {
   parsePositiveInt(input).switch({
     Ok: (num) => console.log(`✓ Valid: ${num}`),
-    Err: (error) => console.log(`✗ Invalid: ${error}`)
+    Err: (error) => console.log(`✗ Invalid: ${error}`),
   });
 });
 
@@ -372,7 +372,7 @@ interface Order {
 
 async function processOrder(orderId: string): Promise<Result<Order, string>> {
   const orderResult = await findOrder(orderId);
-  
+
   return orderResult
     .andThen(validateOrder)
     .andThen(checkInventory)
@@ -392,7 +392,7 @@ result.switch({
   Err: (error) => {
     console.error(`Order processing failed: ${error}`);
     // Maybe send notification to customer or retry
-  }
+  },
 });
 ```
 
