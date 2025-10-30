@@ -1,7 +1,14 @@
 {
   "name": "@hicarod0/result.ts",
   "version": "1.1.0",
-  "description": "A TypeScript Take on Rust’s Result<T, E>",
+  "description": "A TypeScript Take on Rust's Result<T, E>",
+  "main": "src/result.ts",
+  "types": "src/result.ts",
+  "files": [
+    "src/result.ts",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
     "test": "jest",
     "types:check": "tsc --noEmit"
