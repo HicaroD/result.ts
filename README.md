@@ -1,22 +1,26 @@
 # result.ts
 
-A TypeScript Take on Rust’s Result&lt;T, E>
+A TypeScript Take on Rust’s Result<T, E>.
 
 ## Installation
 
 ```bash
 # Using npm
-npm install result.ts
+npm install tsresult
 
 # Using yarn
-yarn add result.ts
+yarn add tsresult
 
 # Using pnpm
-pnpm add result.ts
+pnpm add tsresult
 
 # Using bun
-bun add result.ts
+bun add tsresult
 ```
+
+## Usage
+
+TODO.
 
 # License
 
