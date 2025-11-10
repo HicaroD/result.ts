@@ -1,9 +1,7 @@
 name: Publish Package to npmjs
-
 on:
   push:
     branches: [master]
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,6 +21,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm run types:check
       - run: pnpm test
+      - run: pnpm run build
       - run: pnpm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
