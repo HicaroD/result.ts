@@ -1,6 +1,6 @@
 {
   "name": "@hicarod0/result.ts",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A TypeScript Take on Rust's Result<T, E>",
   "main": "dist/result.js",
   "types": "dist/result.d.ts",
