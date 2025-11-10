@@ -28,4 +28,4 @@ jobs:
       - run: pnpm run types:check
       - run: pnpm test
       - run: pnpm run build
-      - run: pnpm publish --provenance --access public
+      - run: pnpm publish --access public
